@@ -13,7 +13,7 @@ export const connectToDB = async () => {
   try {
     await mongoose.connect(
       `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mdb1.nzmjbpp.mongodb.net/`,
-      { dbName: 'TODO App', useNewUrlParser: true, useUnifiedTopology: true }
+      { dbName: 'TODOApp', useNewUrlParser: true, useUnifiedTopology: true }
     );
     isConnected = true;
     console.log('DB Connected successfully');

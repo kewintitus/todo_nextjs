@@ -2,32 +2,56 @@
 import React, { useContext, useRef, useState } from 'react';
 import classes from './login.module.css';
 import { AuthContext } from '../providers/Authprovider';
+import axios from 'axios';
 
 const Login = () => {
   const userNameRef = useRef();
   const passwordRef = useRef();
+  const emailRef = useRef();
 
   const [isLoginPage, setIsLoginPage] = useState(true);
 
   const setSignUpPage = () => {
-    setIsLoginPage(false)
-  }
+    setIsLoginPage(false);
+  };
   const setLoginPage = () => {
-    setIsLoginPage(true)
-  }
+    setIsLoginPage(true);
+  };
 
   const { isLoggedIn, setLoggedIn, setLoggedOut } = useContext(AuthContext);
+
+  const signUpUser = async (email, username, password) => {
+    try {
+      const response = await axios.post(`/api/users/signup`, {
+        email,
+        username,
+        password,
+      });
+      console.log('signup success', response.data);
+      setLoggedIn();
+    } catch (error) {
+      console.log('signup failed', error?.message);
+    }
+  };
 
   const submit = (e) => {
     // e.preventDefault();
     // return false;
     const userName = userNameRef.current.value;
     const password = passwordRef.current.value;
-    if (userName && password.length >= 8) {
-      setLoggedIn();
-    } else {
-      setLoggedOut();
-    }
+    const email = emailRef.current.value;
+    try {
+      if (isLoginPage) {
+      } else {
+        signUpUser(email, userName, password);
+      }
+    } catch (error) {}
+
+    // if (userName && password.length >= 8) {
+    //   setLoggedIn();
+    // } else {
+    //   setLoggedOut();
+    // }
   };
   console.log(isLoggedIn);
   return (
@@ -39,8 +63,11 @@ const Login = () => {
       }}
     >
       <div className={`${classes.loginCard}`}>
-        <div>{isLoggedIn ? 'logged in' : 'not logged in'}</div>
-        <div className={`${classes.loginHeader}`}>Login</div>
+        {/* <div>{isLoggedIn ? 'logged in' : 'not logged in'}</div> */}
+        <div className={`${classes.appName}`}>TODO APP</div>
+        <div className={`${classes.loginHeader}`}>
+          {isLoginPage ? 'Login' : 'Sign up'}
+        </div>
         <div className={`${classes.userNameContainer}`}>
           <label htmlFor="">Username</label>
           <input
@@ -49,6 +76,17 @@ const Login = () => {
             type="text"
           />
         </div>
+        {!isLoginPage && (
+          <div className={`${classes.userNameContainer}`}>
+            <label htmlFor="">Email</label>
+            <input
+              ref={emailRef}
+              className={classes.userNameInput}
+              type="email"
+            />
+          </div>
+        )}
+
         <div className={`${classes.passwordContainer}`}>
           <label>Password</label>
           <input
@@ -59,12 +97,24 @@ const Login = () => {
         </div>
         <div className={`${classes.loginBtnCont}`}>
           <button type="submit" className={`${classes.loginBtn}`}>
-            Login
+            {isLoggedIn ? Login : 'Sign up'}
           </button>
         </div>
-        <div>
-          New user? <span onClick={}>Sign-up</span>
-        </div>
+        {isLoginPage ? (
+          <div className={`${classes.authSwitch}`}>
+            New user?{' '}
+            <span className={classes.link} onClick={setSignUpPage}>
+              Sign-up
+            </span>
+          </div>
+        ) : (
+          <div className={`${classes.authSwitch}`}>
+            Already have an account?{' '}
+            <span className={classes.link} onClick={setLoginPage}>
+              Log in
+            </span>
+          </div>
+        )}
       </div>
     </form>
   );

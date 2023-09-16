@@ -1,6 +1,5 @@
 'use client';
-import Image from 'next/image';
-import styles from './page.module.css';
+
 import Login from './login/Login';
 import { useContext } from 'react';
 import { AuthContext } from './providers/Authprovider';

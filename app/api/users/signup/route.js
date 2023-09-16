@@ -5,6 +5,7 @@ import bcryptjs from 'bcryptjs';
 
 async function signup(request) {
   try {
+    connectToDB();
     const reqBody = await request.json();
     const { username, email, password } = reqBody;
 

@@ -8,10 +8,15 @@
   flex-direction: column;
   gap: 5px;
 }
+
+.appName {
+  font-size: 28px;
+  text-align: center;
+}
 .loginCard {
   width: 400px;
   height: 500px;
-  padding: 5px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -25,6 +30,7 @@
 
 .loginPage {
   display: flex;
+  transition: all 0.3s;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -58,10 +64,13 @@
 .loginBtnCont {
   display: flex;
   justify-content: center;
+  align-items: center;
+  justify-self: flex-end;
+  margin-top: auto;
 }
 
 .userNameInput {
-  padding: 4px;
+  padding: 9px;
   border-radius: 6px;
   border: 2px solid lightgrey;
   outline: none;
@@ -69,12 +78,18 @@
 
 .userNameInput:active,
 .userNameInput:focus {
-  border: 2px solid lightblue;
+  border: 2px solid darkblue;
 }
 
 .passwdInput {
-  padding: 4px;
+  padding: 9px;
   border-radius: 6px;
+  border: 2px solid lightgrey;
+  outline: none;
+}
+.passwdInput:active,
+.passwdInput:focus {
+  border: 2px solid darkblue;
 }
 
 .loginBtn {
@@ -88,4 +103,14 @@
 
 .loginBtn:hover {
   background-color: #436dcf;
+}
+
+.link {
+  color: darkblue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.authSwitch {
+  text-align: center;
 }
