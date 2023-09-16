@@ -15,10 +15,18 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Please provide a password'],
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: String,
     default: 'user',
   },
+  forgotPasswordToken: String,
+  forgotPasswordTokenExpiry: String,
+  verifyToken: String,
+  verifyTokenExpiry: Date,
 });
 
 const User = models.User || mongoose.model('User', userSchema);

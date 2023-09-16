@@ -1,11 +1,20 @@
 'use client';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import classes from './login.module.css';
 import { AuthContext } from '../providers/Authprovider';
 
 const Login = () => {
   const userNameRef = useRef();
   const passwordRef = useRef();
+
+  const [isLoginPage, setIsLoginPage] = useState(true);
+
+  const setSignUpPage = () => {
+    setIsLoginPage(false)
+  }
+  const setLoginPage = () => {
+    setIsLoginPage(true)
+  }
 
   const { isLoggedIn, setLoggedIn, setLoggedOut } = useContext(AuthContext);
 
@@ -52,6 +61,9 @@ const Login = () => {
           <button type="submit" className={`${classes.loginBtn}`}>
             Login
           </button>
+        </div>
+        <div>
+          New user? <span onClick={}>Sign-up</span>
         </div>
       </div>
     </form>
