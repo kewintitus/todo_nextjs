@@ -28,24 +28,41 @@ const Login = () => {
         password,
       });
       console.log('signup success', response.data);
-      setLoggedIn();
+      // setLoggedIn();
+      setIsLoginPage(true);
     } catch (error) {
       console.log('signup failed', error?.message);
+    }
+  };
+
+  const loginUser = async (email, password) => {
+    try {
+      const response = await axios.post('/api/users/login', {
+        email,
+        password,
+      });
+      console.log('Login success', response.data);
+      setLoggedIn();
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const submit = (e) => {
     // e.preventDefault();
     // return false;
-    const userName = userNameRef.current.value;
+    const userName = userNameRef?.current?.value;
     const password = passwordRef.current.value;
-    const email = emailRef.current.value;
+    const email = emailRef?.current?.value;
     try {
       if (isLoginPage) {
+        loginUser(email, password);
       } else {
         signUpUser(email, userName, password);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     // if (userName && password.length >= 8) {
     //   setLoggedIn();
@@ -68,24 +85,25 @@ const Login = () => {
         <div className={`${classes.loginHeader}`}>
           {isLoginPage ? 'Login' : 'Sign up'}
         </div>
-        <div className={`${classes.userNameContainer}`}>
-          <label htmlFor="">Username</label>
-          <input
-            ref={userNameRef}
-            className={classes.userNameInput}
-            type="text"
-          />
-        </div>
         {!isLoginPage && (
           <div className={`${classes.userNameContainer}`}>
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Username</label>
             <input
-              ref={emailRef}
+              ref={userNameRef}
               className={classes.userNameInput}
-              type="email"
+              type="text"
             />
           </div>
         )}
+
+        <div className={`${classes.userNameContainer}`}>
+          <label htmlFor="">Email</label>
+          <input
+            ref={emailRef}
+            className={classes.userNameInput}
+            type="email"
+          />
+        </div>
 
         <div className={`${classes.passwordContainer}`}>
           <label>Password</label>
@@ -97,7 +115,7 @@ const Login = () => {
         </div>
         <div className={`${classes.loginBtnCont}`}>
           <button type="submit" className={`${classes.loginBtn}`}>
-            {isLoggedIn ? Login : 'Sign up'}
+            {isLoginPage ? 'Login' : 'Sign up'}
           </button>
         </div>
         {isLoginPage ? (
