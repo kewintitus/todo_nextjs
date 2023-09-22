@@ -5,10 +5,6 @@ import { AuthContext } from '../providers/Authprovider';
 import axios from 'axios';
 
 const Login = () => {
-  const userNameRef = useRef();
-  const passwordRef = useRef();
-  const emailRef = useRef();
-
   const [isLoginPage, setIsLoginPage] = useState(true);
 
   const setSignUpPage = () => {
