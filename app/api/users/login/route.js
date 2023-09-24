@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const loginUserRoute = async (request) => {
   try {
-    connectToDB();
+    await connectToDB();
     const reqBody = await request.json();
     const { email, password } = reqBody;
     console.log('request body', reqBody);

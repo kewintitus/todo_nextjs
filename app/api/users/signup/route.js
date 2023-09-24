@@ -1,8 +1,9 @@
 import { connectToDB } from '@/app/utils/db';
 import User from '@/app/models/user';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import bcryptjs from 'bcryptjs';
 
+import sendMail from './../../../helpers/mailer';
 async function signup(request) {
   try {
     connectToDB();
@@ -27,6 +28,14 @@ async function signup(request) {
 
     const savedUser = await newUser.save();
     console.log(savedUser);
+    //sending verification email
+    const mail = await sendMail({
+      email,
+      emailType: 'VERIFY',
+      userId: savedUser._id,
+    });
+    console.log('Mail sent successfully');
+
     return NextResponse.json(
       { message: 'User created successfully', success: true, savedUser },
       {

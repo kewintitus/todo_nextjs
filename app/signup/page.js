@@ -2,18 +2,41 @@
 import React, { useRef } from 'react';
 import classes from './signup.module.css';
 import Link from 'next/link';
+import axios from 'axios';
+import { NextResponse } from 'next/server';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
   const userNameRef = useRef();
   const passwordRef = useRef();
   const emailRef = useRef();
 
+  const router = useRouter();
+
+  const signUpUser = async () => {
+    try {
+      const userName = userNameRef?.current?.value;
+      const password = passwordRef.current.value;
+      const email = emailRef?.current?.value;
+      const response = await axios.post('/api/users/signup', {
+        username: userName,
+        email,
+        password,
+      });
+      router.push('/signin');
+      console.log('SignUp success', response.data);
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Error while signing up' },
+        { status: 400 }
+      );
+    }
+  };
+
   const submit = (e) => {
     e.preventDefault();
+    signUpUser();
     // return false;
-    const userName = userNameRef?.current?.value;
-    const password = passwordRef.current.value;
-    const email = emailRef?.current?.value;
   };
   return (
     <form className={`${classes.loginPage}`} onSubmit={submit}>
